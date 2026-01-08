@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Boost your learning with an AI-powered study assistant.",
   icons: {
     icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
 };
 
