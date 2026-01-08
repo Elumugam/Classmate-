@@ -2,6 +2,15 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
+// Debug Route to verify /auth mounting
+router.get('/debug', (req, res) => {
+    res.json({
+        message: "Auth Routes are mounted correctly!",
+        google_client_id_exists: !!process.env.GOOGLE_CLIENT_ID,
+        callback_url: process.env.GOOGLE_CALLBACK_URL
+    });
+});
+
 // Auth with Google
 // Auth with Google
 router.get('/google', (req, res, next) => {
