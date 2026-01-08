@@ -2,7 +2,7 @@ services:
   # Backend Service (Node.js Express)
   - type: web
     name: classmateplus-api
-    env: node
+    runtime: node
     plan: free
     rootDir: server
     buildCommand: npm install
@@ -10,13 +10,11 @@ services:
     envVars:
       - key: PORT
         value: 10000
-      - key: NODE_VERSION
-        value: 20.9.0
       - key: NODE_ENV
         value: production
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: web
           name: classmateplus-frontend
           property: url
       # Secrets to be verified in Render Dashboard
@@ -30,8 +28,9 @@ services:
         generateValue: true
 
   # Frontend Service (Static Site)
-  - type: static
+  - type: web
     name: classmateplus-frontend
+    runtime: static
     plan: free
     rootDir: client
     buildCommand: npm install && npm run build
