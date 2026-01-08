@@ -3,11 +3,6 @@
   command = "npm run build"
   publish = "out"
 
-[[redirects]]
-  from = "/favicon.ico"
-  to = "/logo.png"
-  status = 200
-  force = true
 
 [[redirects]]
   from = "/*"
