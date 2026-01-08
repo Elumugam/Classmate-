@@ -1,18 +1,9 @@
-// Helper to determine API URL dynamically at runtime
-export const getBackendUrl = () => {
-    // 1. Build-time / Environment override
-    if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-
-    // 2. Client-side runtime detection
-    if (typeof window !== 'undefined') {
-        const hostname = window.location.hostname;
-        if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-            return 'https://classmateplus-api.onrender.com';
-        }
+// Strict Environment Variable Usage
+if (!process.env.NEXT_PUBLIC_API_URL) {
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+        console.error("CRITICAL: NEXT_PUBLIC_API_URL is missing in production!");
     }
+}
 
-    // 3. Fallback
-    return 'http://localhost:5000';
-};
-
-export const API_URL = getBackendUrl();
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+export const getBackendUrl = () => API_URL; // Keep compatibility

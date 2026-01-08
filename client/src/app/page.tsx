@@ -16,19 +16,30 @@ import {
 import { API_URL, getBackendUrl } from "@/lib/apiConfig";
 
 const GoogleButton = ({ className = "" }: { className?: string }) => {
-  // Compute URL at click time/render time to avoid static bake-in
-  const loginUrl = `${getBackendUrl()}/auth/google`;
+  const handleLogin = () => {
+    // Explicitly use process.env.NEXT_PUBLIC_API_URL as requested
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    if (!backendUrl) {
+      console.error("Login Failed: NEXT_PUBLIC_API_URL is not defined in environment variables.");
+      alert("System Error: API Configuration Missing. Please contact support.");
+      return;
+    }
+
+    // Redirect to the deployed backend OAuth endpoint
+    window.location.href = `${backendUrl}/auth/google`;
+  };
 
   return (
-    <a
-      href={loginUrl}
+    <button
+      onClick={handleLogin}
       className={`inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg overflow-hidden shadow-md transition-all group ${className}`}
     >
       <div className="bg-white p-2.5 mr-0.5">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
       </div>
       <span className="px-5 py-2.5 font-semibold text-sm">Continue with Google</span>
-    </a>
+    </button>
   );
 };
 
