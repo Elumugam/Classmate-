@@ -2,6 +2,7 @@
 const nextConfig = {
     images: {
         domains: ['lh3.googleusercontent.com', 'i.ytimg.com'],
+        unoptimized: true,
     },
     eslint: {
         ignoreDuringBuilds: true,
