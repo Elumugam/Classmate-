@@ -24,12 +24,25 @@ app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(helmet());
 app.use(morgan('dev'));
 
+// Trust Proxy for Render/Netlify (Required for secure cookies)
+app.set('trust proxy', 1);
+
 // Sessions
+const sessionSecret = process.env.SESSION_SECRET || process.env.JWT_SECRET || 'dev-fallback-secret-do-not-use-in-prod';
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV === 'production') {
+    console.warn("WARNING: SESSION_SECRET is missing in production! Using fallback.");
+}
+
 app.use(session({
-    secret: process.env.JWT_SECRET,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Set to true if https
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // true in production
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site for separate frontend/backend
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
 }));
 
 // Passport middleware
