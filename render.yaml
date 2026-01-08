@@ -16,7 +16,7 @@ services:
         value: production
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: static_site
           name: classmateplus-frontend
           property: url
       # You must verify these in Render Dashboard
@@ -30,7 +30,7 @@ services:
         generateValue: true
 
   # Frontend Service (Static Site)
-  - type: static
+  - type: static_site
     name: classmateplus-frontend
     plan: free
     rootDir: client
