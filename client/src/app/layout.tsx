@@ -17,9 +17,13 @@ export const metadata: Metadata = {
   title: "ClassMates+ | AI Study Assistant",
   description: "Boost your learning with an AI-powered study assistant.",
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/icon.png' }
+    ]
   },
 };
 
