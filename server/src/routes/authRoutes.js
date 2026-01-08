@@ -3,7 +3,13 @@ const passport = require('passport');
 const router = express.Router();
 
 // Auth with Google
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// Auth with Google
+router.get('/google', (req, res, next) => {
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+        return res.status(500).send("Login Failed: Server is missing Google OAuth Credentials (GOOGLE_CLIENT_ID). Please check Render Dashboard.");
+    }
+    passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+});
 
 // Google Auth Callback
 router.get('/google/callback',

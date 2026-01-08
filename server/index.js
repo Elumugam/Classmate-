@@ -43,6 +43,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', require('./src/routes/authRoutes'));
 app.use('/api', require('./src/routes/apiRoutes'));
 
+// Global 404 Handler to debug missing routes
+app.use((req, res, next) => {
+    if (req.path === '/') return next(); // handled below
+    console.log(`[404] Route not found: ${req.method} ${req.originalUrl}`);
+    res.status(404).json({ error: 'Route not found', path: req.originalUrl, method: req.method });
+});
+
 app.get('/', (req, res) => {
     res.json({
         status: 'online',
