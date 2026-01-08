@@ -1,5 +1,5 @@
 services:
-  # Backend Service (Node.js Express)
+  # Backend Service (Express API)
   - type: web
     name: classmateplus-api
     runtime: node
@@ -12,12 +12,12 @@ services:
         value: 10000
       - key: NODE_ENV
         value: production
+
+      # SET MANUALLY IN RENDER DASHBOARD
       - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: classmateplus-frontend
-          property: url
-      # Secrets to be verified in Render Dashboard
+        sync: false
+
+      # SET MANUALLY IN RENDER DASHBOARD
       - key: MONGODB_URI
         sync: false
       - key: GOOGLE_CLIENT_ID
@@ -36,8 +36,6 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: out
     envVars:
+      # SET MANUALLY IN RENDER DASHBOARD
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: classmateplus-api
-          property: url
+        sync: false

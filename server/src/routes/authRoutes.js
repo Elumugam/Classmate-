@@ -24,6 +24,10 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
+        if (!process.env.FRONTEND_URL) {
+            console.error("REDIRECT FAILED: FRONTEND_URL is missing.");
+            return res.status(500).send("Login Successful, but redirection failed because FRONTEND_URL is missing in environment variables.");
+        }
         // Successful authentication, redirect to frontend dashboard
         res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
     }
@@ -33,6 +37,10 @@ router.get('/google/callback',
 router.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) { return next(err); }
+        if (!process.env.FRONTEND_URL) {
+            console.error("LOGOUT REDIRECT FAILED: FRONTEND_URL is missing.");
+            return res.json({ message: "Logged out successfully (API only)" });
+        }
         res.redirect(process.env.FRONTEND_URL);
     });
 });

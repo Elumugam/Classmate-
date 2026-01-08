@@ -6,4 +6,8 @@ if (!process.env.NEXT_PUBLIC_API_URL) {
 }
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+if (!API_URL && typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+    console.error("CRITICAL: NEXT_PUBLIC_API_URL is missing! Requests will fail.");
+}
+
 export const getBackendUrl = () => API_URL; // Keep compatibility

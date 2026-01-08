@@ -20,6 +20,12 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
+// Safety Check for Frontend URL
+if (!process.env.FRONTEND_URL && process.env.NODE_ENV === 'production') {
+    console.warn("CRITICAL WARNING: FRONTEND_URL is not defined. CORS and OAuth redirects will fail.");
+}
+
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(helmet());
 app.use(morgan('dev'));
