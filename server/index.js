@@ -43,6 +43,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', require('./src/routes/authRoutes'));
 app.use('/api', require('./src/routes/apiRoutes'));
 
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        message: 'ClassMate+ API is running',
+        auth_configured: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
+    });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
