@@ -2,8 +2,9 @@ const axios = require('axios');
 
 async function testAIEndpoint() {
     try {
-        console.log("Testing Main App AI Endpoint (with Fallback)...");
-        const response = await axios.post('http://localhost:5000/api/chat', {
+        const API_URL = process.env.API_URL || 'http://localhost:5000';
+        console.log(`Testing AI Endpoint at ${API_URL}...`);
+        const response = await axios.post(`${API_URL}/api/chat`, {
             message: "Hello, are you online?",
             history: []
         });

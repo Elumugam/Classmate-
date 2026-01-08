@@ -13,9 +13,11 @@ import {
   ChevronRight
 } from "lucide-react";
 
+import { API_URL } from "@/lib/apiConfig";
+
 const GoogleButton = ({ className = "" }: { className?: string }) => (
   <a
-    href="http://localhost:5000/auth/google"
+    href={`${API_URL}/auth/google`}
     className={`inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg overflow-hidden shadow-md transition-all group ${className}`}
   >
     <div className="bg-white p-2.5 mr-0.5">

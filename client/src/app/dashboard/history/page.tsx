@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "@/lib/apiConfig";
 import {
     Clock,
     BookOpen,
@@ -32,7 +33,7 @@ export default function StudyHistoryPage() {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/history", { withCredentials: true });
+                const res = await axios.get(`${API_URL}/api/history`, { withCredentials: true });
                 setHistory(res.data);
             } catch (err) {
                 console.error("Failed to load history");

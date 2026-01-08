@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_URL } from "@/lib/apiConfig";
 
 interface Task {
     _id: string;
@@ -63,7 +64,7 @@ export default function TasksPage() {
 
     const fetchTasks = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/tasks");
+            const res = await axios.get(`${API_URL}/api/tasks`);
             setTasks(res.data);
         } catch (err) {
             console.error("Failed to fetch tasks", err);
@@ -83,7 +84,7 @@ export default function TasksPage() {
         };
 
         try {
-            const res = await axios.post("http://localhost:5000/api/tasks", payload);
+            const res = await axios.post(`${API_URL}/api/tasks`, payload);
             setTasks([res.data, ...tasks]);
             setShowModal(false);
             setNewTask({
@@ -104,7 +105,7 @@ export default function TasksPage() {
 
     const toggleComplete = async (id: string, current: boolean) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/tasks/${id}`, { completed: !current });
+            const res = await axios.put(`${API_URL}/api/tasks/${id}`, { completed: !current });
             setTasks(tasks.map(t => t._id === id ? res.data : t));
         } catch (err) {
             console.error(err);
@@ -113,7 +114,7 @@ export default function TasksPage() {
 
     const deleteTask = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:5000/api/tasks/${id}`);
+            await axios.delete(`${API_URL}/api/tasks/${id}`);
             setTasks(tasks.filter(t => t._id !== id));
         } catch (err) {
             console.error(err);

@@ -30,6 +30,8 @@ const items = [
     { label: "Notes Export", icon: BookOpen, href: "/dashboard/notes" },
 ];
 
+import { API_URL } from "@/lib/apiConfig";
+
 export default function Sidebar({ defaultCollapsed = false }: { defaultCollapsed?: boolean }) {
     const pathname = usePathname();
     const [isExpanded, setIsExpanded] = useState(false);
@@ -169,7 +171,7 @@ export default function Sidebar({ defaultCollapsed = false }: { defaultCollapsed
                 </Link>
 
                 <a
-                    href="http://localhost:5000/auth/logout"
+                    href={`${API_URL}/auth/logout`}
                     className="group flex items-center h-12 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors relative"
                 >
                     <div className="w-14 flex-shrink-0 flex items-center justify-center">

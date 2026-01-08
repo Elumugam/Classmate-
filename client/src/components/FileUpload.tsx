@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Upload, FileText, Check, Loader2 } from "lucide-react";
+import { API_URL } from "@/lib/apiConfig";
 
 export default function FileUpload({ onUploadComplete }: { onUploadComplete: (id: string, name: string) => void }) {
     const [dragging, setDragging] = useState(false);
@@ -18,7 +19,7 @@ export default function FileUpload({ onUploadComplete }: { onUploadComplete: (id
         formData.append("file", file);
 
         try {
-            const res = await axios.post("http://localhost:5000/api/upload", formData, {
+            const res = await axios.post(`${API_URL}/api/upload`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true
             });

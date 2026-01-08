@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "@/lib/apiConfig";
 
 import FloatingChat from "@/components/FloatingChat";
 
@@ -23,7 +24,7 @@ export default function DashboardLayout({
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/auth/current_user', { withCredentials: true })
+        axios.get(`${API_URL}/auth/current_user`, { withCredentials: true })
             .then(res => {
                 const u = res.data;
                 setUser(u);

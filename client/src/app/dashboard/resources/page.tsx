@@ -5,6 +5,7 @@ import axios from "axios";
 import { Search, PlayCircle, Clock, Youtube, Sparkles, SlidersHorizontal, ArrowRight, Loader2, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_URL } from "@/lib/apiConfig";
 
 export default function ResourcesPage() {
     const [query, setQuery] = useState("Core Mathematics for Students");
@@ -16,7 +17,7 @@ export default function ResourcesPage() {
     const search = async (q: string, isLoadMore = false) => {
         if (!isLoadMore) setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:5000/api/videos?topic=${q}`);
+            const res = await axios.get(`${API_URL}/api/videos?topic=${q}`);
             if (isLoadMore) {
                 setVideos(prev => [...prev, ...res.data]);
             } else {

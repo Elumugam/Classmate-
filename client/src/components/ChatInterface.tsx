@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Send, Bot, User, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_URL } from "@/lib/apiConfig";
 
 interface Message {
     role: 'user' | 'assistant';
@@ -32,7 +33,7 @@ export default function ChatInterface({ materialId }: { materialId: string }) {
         setLoading(true);
 
         try {
-            const res = await axios.post("http://localhost:5000/api/chat", {
+            const res = await axios.post(`${API_URL}/api/chat`, {
                 message: userMsg,
                 materialId,
                 history: messages.map(m => ({ role: m.role, content: m.content }))

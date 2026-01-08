@@ -5,6 +5,7 @@ import axios from "axios";
 import { Send, Paperclip, Bot, User, Sparkles, FileText, Loader2, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { API_URL } from "@/lib/apiConfig";
 
 interface Message {
     role: 'user' | 'assistant';
@@ -48,7 +49,7 @@ export default function AIAssistantPage() {
         formData.append("file", file);
 
         try {
-            const res = await axios.post("http://localhost:5000/api/upload", formData, {
+            const res = await axios.post(`${API_URL}/api/upload`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true
             });
@@ -98,7 +99,7 @@ export default function AIAssistantPage() {
         setLoading(true);
 
         try {
-            const res = await axios.post("http://localhost:5000/api/chat", {
+            const res = await axios.post(`${API_URL}/api/chat`, {
                 message: userMsg,
                 materialId,
                 history: messages.filter(m => !m.type && !m.isError).map(m => ({ role: m.role, content: m.content }))

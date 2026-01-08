@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { API_URL } from "@/lib/apiConfig";
 
 export default function SettingsPage() {
     const [preferences, setPreferences] = useState({
@@ -32,7 +33,7 @@ export default function SettingsPage() {
 
     const fetchPreferences = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/auth/current_user', { withCredentials: true });
+            const res = await axios.get(`${API_URL}/auth/current_user`, { withCredentials: true });
             if (res.data?.preferences) {
                 setPreferences(res.data.preferences);
             }
@@ -57,7 +58,7 @@ export default function SettingsPage() {
                 document.documentElement.style.setProperty('--primary-soft', preferences.accentColor + '20');
             }
 
-            await axios.put('http://localhost:5000/api/user/preferences', preferences, { withCredentials: true });
+            await axios.put(`${API_URL}/api/user/preferences`, preferences, { withCredentials: true });
             setStatus("Preferences saved successfully!");
             setTimeout(() => setStatus(null), 3000);
         } catch (err: any) {

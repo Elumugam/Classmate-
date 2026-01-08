@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { API_URL } from "@/lib/apiConfig";
 
 interface Task {
     _id: string;
@@ -50,8 +51,8 @@ export default function DashboardPage() {
     const fetchInitialData = async () => {
         try {
             const [tasksRes, userRes] = await Promise.all([
-                axios.get("http://localhost:5000/api/tasks"),
-                axios.get('http://localhost:5000/auth/current_user', { withCredentials: true })
+                axios.get(`${API_URL}/api/tasks`),
+                axios.get(`${API_URL}/auth/current_user`, { withCredentials: true })
             ]);
             setTasks(tasksRes.data);
             setUser(userRes.data);
