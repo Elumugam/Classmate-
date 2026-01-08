@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Calm Student Palette (Zinc & Violet) */
+  --foreground-rgb: 24, 24, 27;
+  /* Zinc 900 */
+  --background-start-rgb: 250, 250, 250;
+  /* Zinc 50 */
+  --background-end-rgb: 244, 244, 245;
+  /* Zinc 100 */
+
+  --primary: #8b5cf6;
+  /* Violet 500 - Calm & Creative */
+  --primary-soft: #ede9fe;
+  /* Violet 100 */
+
+  --secondary: #10b981;
+  /* Emerald 500 - Success */
+  --secondary-soft: #d1fae5;
+  /* Emerald 100 */
+
+  --accent: #f59e0b;
+  /* Amber 500 - Focus */
+
+  --card-bg: #ffffff;
+  --card-border: #e4e4e7;
+  /* Zinc 200 */
+}
+
+.dark {
+  --foreground-rgb: 250, 250, 250;
+  /* Zinc 50 */
+  --background-start-rgb: 9, 9, 11;
+  /* Zinc 950 */
+  --background-end-rgb: 24, 24, 27;
+  /* Zinc 900 */
+
+  --card-bg: #18181b;
+  /* Zinc 900 */
+  --card-border: #27272a;
+  /* Zinc 800 */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom right,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))) fixed;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism / Clean Card Utilities */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}

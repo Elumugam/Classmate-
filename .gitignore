@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# next.js
+.next/
+client/.next/
+server/.next/
+
+# env files
+.env
+.env.local
+client/.env*
+server/.env*
+
+# production
+dist/
+build/
+
+# misc
+.DS_Store
+*.log
+uploads/
+server/uploads/
