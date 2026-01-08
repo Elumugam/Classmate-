@@ -4,13 +4,14 @@ services:
     name: classmateplus-api
     env: node
     plan: free
-    repo: https://github.com/YourUsername/ClassmatePlus # Render will auto-fill this on connect
     rootDir: server
     buildCommand: npm install
     startCommand: node index.js
     envVars:
       - key: PORT
         value: 10000
+      - key: NODE_VERSION
+        value: 20.9.0
       - key: NODE_ENV
         value: production
       - key: FRONTEND_URL
@@ -32,7 +33,6 @@ services:
   - type: static
     name: classmateplus-frontend
     plan: free
-    repo: https://github.com/YourUsername/ClassmatePlus # Render will auto-fill this on connect
     rootDir: client
     buildCommand: npm install && npm run build
     publishDir: out
