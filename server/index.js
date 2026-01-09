@@ -59,7 +59,7 @@ app.use(passport.session());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.use('/auth', require('./src/routes/authRoutes'));
+app.use('/auth', require('./src/routes/auth'));
 app.use('/api', require('./src/routes/apiRoutes'));
 
 // Global 404 Handler to debug missing routes
