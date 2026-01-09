@@ -73,6 +73,7 @@ app.get('/', (req, res) => {
     res.json({
         status: 'online',
         message: 'ClassMate+ API is running',
+        db_connected: global.dbConnected,
         auth_configured: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
     });
 });

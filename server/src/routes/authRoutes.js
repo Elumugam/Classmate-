@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/debug', (req, res) => {
     res.json({
         message: "Auth Routes are mounted correctly!",
+        db_connected: global.dbConnected,
         google_client_id_exists: !!process.env.GOOGLE_CLIENT_ID,
         callback_url: process.env.GOOGLE_CALLBACK_URL
     });
@@ -47,9 +48,19 @@ router.get('/logout', (req, res) => {
 
 // Current User
 router.get('/current_user', async (req, res) => {
-    // If authenticated via Google, return that user
+    // If authenticated via Google (or transient user), return that user
     if (req.user) {
         return res.json(req.user);
+    }
+
+    // If DB is offline and no user is authenticated, return a degraded state
+    if (!global.dbConnected) {
+        return res.json({
+            id: 'guest',
+            name: 'Guest User',
+            isGuest: true,
+            degradedMode: true
+        });
     }
 
     // Otherwise, return the default hardcoded user for testing

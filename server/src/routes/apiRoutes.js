@@ -11,6 +11,7 @@ const Task = require('../models/Task');
 const { parsePDF } = require('../utils/pdfParser');
 const { getEmbedding, generateTimetable, chatWithPDF, generateStudyInsights, extractTextFromImage } = require('../utils/ai');
 const { searchYouTube } = require('../utils/youtube');
+const dbGuard = require('../middleware/dbGuard');
 
 // Multer Storage
 const storage = multer.diskStorage({
@@ -30,7 +31,7 @@ const upload = multer({ storage });
 // Controllers (Inline for simplicity or move to controllers folder)
 
 // 1. Upload & Process File (PDF, Image, Text)
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', dbGuard, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
@@ -91,7 +92,13 @@ router.post('/chat', async (req, res) => {
     try {
         let response;
         if (materialId) {
-            // Chat with PDF Logic
+            // Chat with PDF Logic - Requires DB
+            if (!global.dbConnected) {
+                return res.status(503).json({
+                    error: "Database Unavailable",
+                    message: "Chatting with PDF requires the database to be online. Please try general chat instead."
+                });
+            }
             const material = await Material.findById(materialId);
             if (!material) return res.status(404).json({ error: 'Material not found' });
 
@@ -137,7 +144,7 @@ router.post('/chat', async (req, res) => {
 });
 
 // 3. Tasks CRUD
-router.get('/tasks', async (req, res) => {
+router.get('/tasks', dbGuard, async (req, res) => {
     try {
         const userId = req.user ? req.user._id : "659000000000000000000000";
         const tasks = await Task.find({ user: userId }).sort({ startTime: 1, createdAt: -1 });
@@ -147,7 +154,7 @@ router.get('/tasks', async (req, res) => {
     }
 });
 
-router.post('/tasks', async (req, res) => {
+router.post('/tasks', dbGuard, async (req, res) => {
     try {
         const userId = req.user ? req.user._id : "659000000000000000000000";
         const task = new Task({ ...req.body, user: userId });
@@ -158,7 +165,7 @@ router.post('/tasks', async (req, res) => {
     }
 });
 
-router.put('/tasks/:id', async (req, res) => {
+router.put('/tasks/:id', dbGuard, async (req, res) => {
     try {
         const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json(task);
@@ -167,7 +174,7 @@ router.put('/tasks/:id', async (req, res) => {
     }
 });
 
-router.delete('/tasks/:id', async (req, res) => {
+router.delete('/tasks/:id', dbGuard, async (req, res) => {
     try {
         await Task.findByIdAndDelete(req.params.id);
         res.json({ message: 'Task deleted' });
@@ -177,7 +184,7 @@ router.delete('/tasks/:id', async (req, res) => {
 });
 
 // 4. Generate Timetable (Saves to Tasks)
-router.post('/timetable', async (req, res) => {
+router.post('/timetable', dbGuard, async (req, res) => {
     const { goals, preferences } = req.body;
     try {
         const timetableData = await generateTimetable(preferences, goals);
@@ -219,7 +226,7 @@ router.get('/videos', async (req, res) => {
 });
 
 // 5. Study History Endpoints
-router.get('/history', async (req, res) => {
+router.get('/history', dbGuard, async (req, res) => {
     try {
         const userId = "659000000000000000000000"; // Mocked
         const activities = await Activity.find({ user: userId }).sort({ timestamp: -1 }).limit(50);
@@ -249,7 +256,7 @@ router.get('/history', async (req, res) => {
     }
 });
 
-router.post('/log-activity', async (req, res) => {
+router.post('/log-activity', dbGuard, async (req, res) => {
     try {
         const { type, subject, topic, title, duration, metadata } = req.body;
         const activity = new Activity({
@@ -264,7 +271,7 @@ router.post('/log-activity', async (req, res) => {
 });
 
 // 6. User Preferences
-router.put('/user/preferences', async (req, res) => {
+router.put('/user/preferences', dbGuard, async (req, res) => {
     try {
         const userId = req.user ? req.user._id : "659000000000000000000000";
         const user = await User.findByIdAndUpdate(
