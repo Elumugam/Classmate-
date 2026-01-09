@@ -30,7 +30,8 @@ router.get('/google/callback',
             return res.status(500).send("Login Successful, but redirection failed because FRONTEND_URL is missing in environment variables.");
         }
         // Successful authentication, redirect to frontend dashboard
-        res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+        // Appending trailing slash because trailingSlash: true is enabled in Next.js config
+        res.redirect(`${process.env.FRONTEND_URL}/dashboard/`);
     }
 );
 
