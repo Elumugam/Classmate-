@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['lh3.googleusercontent.com', 'i.ytimg.com'],
         unoptimized: true,
     },
     eslint: {
@@ -13,4 +12,4 @@ const nextConfig = {
     output: 'export'
 };
 
-export default nextConfig;
+module.exports = nextConfig;
