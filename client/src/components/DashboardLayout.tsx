@@ -21,10 +21,17 @@ export default function DashboardLayout({
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
+        const isDev = process.env.NODE_ENV === "development";
+
         axios.get(`${API_URL}/auth/current_user`, { withCredentials: true })
             .then(res => {
                 const u = res.data;
                 if (!u || Object.keys(u).length === 0) {
+                    if (isDev) {
+                        console.log("Dev Mode: Mocking user for localhost.");
+                        setUser({ preferences: { theme: 'light', accentColor: '#6366f1', sidebarCollapsed: false } });
+                        return;
+                    }
                     console.warn("User not authenticated, redirecting to login.");
                     window.location.href = "/";
                     return;
@@ -48,7 +55,12 @@ export default function DashboardLayout({
             })
             .catch((err) => {
                 console.error("Auth check failed:", err);
-                window.location.href = "/";
+                if (isDev) {
+                    console.log("Dev Mode: Auth failed, but bypassing redirect and providing mock user.");
+                    setUser({ preferences: { theme: 'light', accentColor: '#6366f1', sidebarCollapsed: false } });
+                } else {
+                    window.location.href = "/";
+                }
             });
     }, []);
 
