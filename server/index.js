@@ -45,7 +45,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: process.env.NODE_ENV === 'production', // true in production
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site for separate frontend/backend
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Must be 'none' for cross-site cookies
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }

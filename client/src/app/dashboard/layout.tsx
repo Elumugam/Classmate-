@@ -27,6 +27,14 @@ export default function DashboardLayout({
         axios.get(`${API_URL}/auth/current_user`, { withCredentials: true })
             .then(res => {
                 const u = res.data;
+                // If it's the guest user in Degraded Mode or an empty user, we might want to allow it
+                // but if it's completely null/error, redirect to login
+                if (!u || Object.keys(u).length === 0) {
+                    console.warn("User not authenticated, redirecting to login.");
+                    window.location.href = "/";
+                    return;
+                }
+
                 setUser(u);
 
                 // Apply Theme
@@ -46,7 +54,10 @@ export default function DashboardLayout({
                     document.documentElement.style.setProperty('--primary-soft', u.preferences.accentColor + '20'); // 20 hex = approx 12% opacity
                 }
             })
-            .catch(() => { });
+            .catch((err) => {
+                console.error("Auth check failed:", err);
+                window.location.href = "/";
+            });
     }, []);
 
     return (
