@@ -1,10 +1,10 @@
 "use client";
 
 import { Bell, Search } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 
 export default function Header({ user }: { user?: any }) {
-    const pathname = usePathname();
+    const { pathname } = useRouter();
     const isResourcesPage = pathname === "/dashboard/resources";
 
     return (

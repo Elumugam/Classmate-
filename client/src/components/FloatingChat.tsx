@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, Paperclip, Loader2, Maximize2, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 
 export default function FloatingChat() {
@@ -15,7 +15,7 @@ export default function FloatingChat() {
     ]);
     const [loading, setLoading] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const pathname = usePathname();
+    const { pathname } = useRouter();
 
     useEffect(() => {
         if (isOpen) {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import {
     Home,
     BookOpen,
@@ -33,7 +33,7 @@ const items = [
 import { API_URL } from "@/lib/apiConfig";
 
 export default function Sidebar({ defaultCollapsed = false }: { defaultCollapsed?: boolean }) {
-    const pathname = usePathname();
+    const { pathname } = useRouter();
     const [isExpanded, setIsExpanded] = useState(false);
     // Locked = Sidebar is STAYING open.
     // Collapsed = Sidebar is closed by default.
