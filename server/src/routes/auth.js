@@ -23,7 +23,7 @@ router.get('/google', (req, res, next) => {
 
 // Google Auth Callback
 router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: process.env.FRONTEND_URL || '/' }),
     (req, res) => {
         if (!process.env.FRONTEND_URL) {
             console.error("REDIRECT FAILED: FRONTEND_URL is missing.");
